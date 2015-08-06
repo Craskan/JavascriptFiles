@@ -1,0 +1,168 @@
+<!doctype html>
+
+<html>
+
+<head>
+<title>Chose your FATE!!!</title>
+<style>
+
+
+
+h1{
+	color:rgb(0,0,255);
+	color:rgba(0,0,240,0.7);
+	text-align:center;
+}
+
+body{
+	width:556px;
+	height:653px;
+	background:-ms-linear-gradient(left,red,blue);
+	background:-moz-linear-gradient(left,red,blue);
+	background:-webkit-linear-gradient(left,red,blue);
+}
+
+.frame{
+	width:556px;
+	height:553px;
+	border-style:dotted;
+	border-width:5px;
+	border-color:red;
+}
+.row{
+	height:275px;
+	width:556px;
+	font-size:0px;
+
+
+}
+.square{
+	border-style:dashed;
+	border-width:2px;
+	border-color:green;
+	width:275px;
+	height:275px;
+	font-size:0px;
+}
+#square1{
+	border-right-width:0px;
+}
+#square3{
+	border-right-width:0px;
+}
+</style>
+</head>
+
+<body>
+<h1 id="migle">Welcome to Wars of the Roses!</h1>
+<div class="frame">
+	<div class="row">
+		<a href="file:///C:/Users/Craskan/Documents/webpages/Wars%20of%20the%20Roses/variableChecker.html"><img src="singleKnight.jpg"alt="One Player Battle" class="square" id="square1"></a>
+		<a href="file:///C:/Users/Craskan/Documents/webpages/Wars%20of%20the%20Roses/variableChecker.html"><img src="doubleKnight.jpg" alt="Two Player Battle" class="square" id="square2"></a>
+	</div>
+	<div class="row">
+		<a href="file:///C:/Users/Craskan/Documents/webpages/Wars%20of%20the%20Roses/variableChecker.html"><img src="singleKnightCampaign.jpg" alt="One Player Campaign" class="square" id="square3"></a>
+
+		<a href="file:///C:/Users/Craskan/Documents/webpages/Wars%20of%20the%20Roses/variableChecker.html"><img src="doubleKnightCampaign.jpg" alt="Two Player Campaign" class="square" id="square4"></a>
+	</div>
+		
+</div>
+
+</body>
+
+<script>
+
+  var test = document.getElementById("square1");
+  var test2 = document.getElementById("square2");
+  var test3 = document.getElementById("square3");
+  var test4 = document.getElementById("square4");
+  var test5 = document.getElementById("migle");
+
+function isInside(node,target) {
+	for(; node != null; node = node.parentNode)
+	{
+		if(node == target)
+		{
+			return true;
+		}
+	}
+}
+
+
+ test.addEventListener("mouseover", function(event){
+ 	if(!isInside(event.relatedTarget, test))
+ 	{
+ 		test.style.borderColor = "rgb(0,100,255)";
+ 		test2.style.borderLeftColor = "rgb(0,100,255)";
+ 		test3.style.borderTopColor = "rgb(0,100,255)";
+ 	}
+ });
+
+ test.addEventListener("mouseout", function(event){
+ 	if(!isInside(event.relatedTarget, test))
+ 	{
+ 		test.style.borderColor = "green";
+ 		test2.style.borderLeftColor = "green";
+ 		test3.style.borderTopColor = "green";
+ 	}
+ });
+
+ test5.addEventListener("dblclick",function(event){
+ 	test5.style.color = "white";
+ })
+
+ test2.addEventListener("mouseover", function(event){
+ 	
+ 	if(!isInside(event.relatedTarget, test2))
+ 	{
+ 		test2.style.borderColor = "rgb(0,100,255)";
+ 		test4.style.borderTopColor = "rgb(0,100,255)";
+ 	}
+ });
+
+ test2.addEventListener("mouseout", function(event){
+ 	if(!isInside(event.relatedTarget, test2))
+ 	{
+ 		test2.style.borderColor = "green";
+ 		test4.style.borderTopColor = "green";
+ 	}
+ });
+
+ test3.addEventListener("mouseover", function(event){
+ 	
+ 	if(!isInside(event.relatedTarget, test3))
+ 	{
+ 		test3.style.borderColor = "rgb(0,100,255)";
+ 		test4.style.borderLeftColor = "rgb(0,100,255)";
+ 	}
+ });
+
+ test3.addEventListener("mouseout", function(event){
+ 	if(!isInside(event.relatedTarget, test3))
+ 	{
+ 		test3.style.borderColor = "green";
+ 		test4.style.borderLeftColor = "green";
+ 	}
+ });
+
+ test4.addEventListener("mouseover", function(event){
+ 	
+ 	if(!isInside(event.relatedTarget, test4))
+ 	{
+ 		test4.style.borderColor = "rgb(0,100,255)";
+ 		test2.style.borderBottomColor = "rgb(0,100,255)";
+ 	}
+ });
+
+ test4.addEventListener("mouseout", function(event){
+ 	if(!isInside(event.relatedTarget, test4))
+ 	{
+ 		test4.style.borderColor = "green";
+ 		test2.style.borderBottomColor = "green";
+ 	}
+ });
+
+</script>
+
+
+</html>

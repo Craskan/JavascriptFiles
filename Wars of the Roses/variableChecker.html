@@ -1,0 +1,492 @@
+<!doctype html>
+
+<html>
+<head>
+<title id="docName">variable checker</title>
+<style>
+
+@media (max-width: 2000px) {
+  h1 {
+    font-size: 35px;
+    margin-top: 20px;
+    line-height: 40px;
+  }
+  .gameFrame{
+    max-width: 500px;
+  }
+  .square{
+    height:150px;
+    width:150px;
+
+  }
+  .row{
+    height:150px;
+    width:470px;
+  }
+  p{
+    font-size: 20px;
+  }
+  #start{
+    height:25px;
+    width:100px;
+  }
+} 
+@media (max-width:500px) {
+  h1{
+    font-size:26px;
+    margin-top:15px;
+    line-height:30px;
+  }
+  .gameFrame{
+    max-width:380px;
+  }
+  .square{
+    height:112px;
+    width: 112px;
+  }
+  .row{
+    height:112px;
+    width:350px;  
+  }
+ p{
+  font-size:15px;
+ }
+}
+@media (max-width:380px) {
+  h1{
+    font-size:24px;
+    margin-top:14px;
+    line-height:27px;
+  }
+  .square{
+    height:90px;
+    width: 90px;
+  }
+  .row{
+    height:90px;
+    width:380px;
+  }
+  .gameFrame{
+    max-width:305px;
+  }
+ p{
+  font-size:14px;
+ }
+ #start{
+  width:270px;
+ }
+}
+@media (max-width:300px) {
+  h1{
+    font-size:20px;
+    margin-top:11px;
+    line-height:22px;
+    text-align:center;
+    
+  }
+  .square{
+    height:60px;
+    width: 60px;
+    
+  }
+  .row{
+    height:60px;
+    width:195px;
+    
+
+  }
+  .gameFrame{
+    max-width:205px;
+    margin:0 auto;
+  }
+ p{
+  font-size:12px;
+  
+ }
+ #start{
+  width: 190px;
+  height:50px;
+ }
+}
+</style>
+   
+</head>
+<body>
+<h1>WARS of the ROSES</h1>
+<div class="gameFrame">
+ <p>The house of Lancaster (red rose), and the house of York (white),
+ are nearing the final climatic battle of this 30 year war.  Who will emerge
+ victorious???</p>
+
+ <button id="start" type="button" style="background-color:red;" onclick="startGame();" >Start Game</button>
+ <div class="row">
+   <img src="unoccupied.jpg" alt="background image" class="square" id="square1" >
+   <img src="unoccupied.jpg" alt="background image" class="square" id="square2" >
+   <img src="unoccupied.jpg" alt="background image" class="square" id="square3" >  
+ </div>
+ <div class="row">
+   <img src="unoccupied.jpg" alt="background image" class="square" id="square4" >
+   <img src="unoccupied.jpg" alt="background image" class="square" id="square5" >
+   <img src="unoccupied.jpg" alt="background image" class="square" id="square6" >
+ </div>
+ <div class="row">
+   <img src="unoccupied.jpg" alt="background image" class="square" id="square7"  >
+   <img src="unoccupied.jpg" alt="background image" class="square" id="square8"  >
+   <img src="unoccupied.jpg" alt="background image" class="square" id="square9"  >
+ </div>
+</div>
+
+<button id="dumkopft">a</button>
+
+
+
+<p id="screenWriter"></p>
+
+<script>
+
+var turn = 0;
+var emptySquare = "unoccupied.jpg";
+var nameOne = "Wars of the Roses";
+var whiteRoses = "whiteRose.jpg";
+var redRoses = "redRose.jpg";
+var unowned = -1;
+var redTeam = 1;
+var whiteTeam = 2;
+var unselectable = 3;
+var winner = 0;
+var gameType = 1;
+var rows = 3;
+var cols = 3;
+var pRWin = 0;
+var pWWin = 0;
+var VC = 2;
+//gameType 1 is single game, single player
+//if gametype is 2, 2 humans, single game
+//if option 3, campaign mode is on
+var whichFaction = 1;
+//if which faction is 1, human is red, if 2, human is white
+var computerMove = 0;
+var coinToss = flipCoin();
+//if coin toss is 1 human goes first, if 2,
+//computer goes first
+
+//value zero means neutral, value one white, two is red
+var playerMoves = [0,0,0,0,0,0,0,0,0];
+
+document.getElementById("docName").innerHTML = nameOne;
+
+/*function getElementsByClassName(node, classname) {
+    var a = [];
+    var re = new RegExp('(^| )'+classname+'( |$)');
+    var els = node.getElementsByTagName("*");
+    for(var i=0,j=els.length; i<j; i++)
+        if(re.test(els[i].className))a.push(els[i]);
+    return a;
+}
+var squarez3 = getElementsByClassName(document.body,'square');
+*/
+
+var squarez1 = document.getElementById("square1");
+var squarez2 = document.getElementById("square2");
+var squarez3 = document.getElementById("square3");
+var squarez4 = document.getElementById("square4");
+var squarez5 = document.getElementById("square5");
+var squarez6 = document.getElementById("square6");
+var squarez7 = document.getElementById("square7");
+var squarez8 = document.getElementById("square8");
+var squarez9 = document.getElementById("square9");
+
+
+function flipCoin(){
+  return Math.round(((Math.random() * (2 - 1)) + 1));
+}
+
+function whosTurn(){
+  //if returns one, humans turn, if two computers turn
+  var whosPlay = 0;
+  if(coinToss === 1)
+  //human went/goes first  
+  {
+    if((turn%2 === 0))
+    //it is the first players turn,   
+    {
+      whosPlay = 1;
+    }
+    else if((turn%2 === 1))
+    //it is the second players turn 
+    {
+      whosPlay = 2;
+    }
+    
+  }
+  else if (coinToss === 2)
+  //computer went/goes first
+  {
+    if((turn%2 === 0))
+    //it is the first players turn,   
+    {
+      whosPlay = 2;
+    }
+    else if((turn%2 === 1))
+    //it is the second players turn 
+    {
+      whosPlay = 1;
+    }
+  }
+  return whosPlay;
+}
+
+function squareEmptyComp(squareNum){
+  //zero is empty, 1 is human/red, 2 is computer
+  spaceEmptyC = 0;
+  if (playerMoves[squareNum] === 1)
+  {
+    spaceEmptyC = 1;
+  }
+  else if (playerMoves[squareNum] === 2)
+  {
+    spaceEmptyC = 2;
+  }
+  return spaceEmptyC;
+}
+
+function squareEmpty(handler){
+  //0 is unoccupied, 1 is human/red, 2 is computer
+  var spaceEmpty = 0;
+
+  if(handler.target.src === "file:///C:/Users/Craskan/Documents/webpages/Wars%20of%20the%20Roses/redRose.jpg")
+  {
+    spaceEmpty = 1;
+  }
+  else if (handler.target.src === "file:///C:/Users/Craskan/Documents/webpages/Wars%20of%20the%20Roses/whiteRose.jpg")
+  {
+    spaceEmpty = 2;
+  }
+  return spaceEmpty;
+}
+
+function computerMov(){
+  
+    if(whosTurn() === 1)
+    {
+      activateListeners();
+    }
+    else if (whosTurn() === 2)
+    {
+      if(playerMoves[0] === 0)
+      {
+        square1.src = whiteRoses;
+        playerMoves[0] = 2;
+        activateListeners();
+        turn += 1;
+      }
+      else if (playerMoves[1] === 0)
+      {
+          square2.src = whiteRoses;
+          playerMoves[1] = 2;
+          activateListeners();
+          turn += 1;
+      }
+      else if (playerMoves[2] === 0)
+      { 
+          square3.src = whiteRoses;
+          playerMoves[2] = 2;
+          activateListeners();
+          turn += 1;
+      }
+      else if (playerMoves[3] === 0)
+      {
+          square4.src = whiteRoses;
+          playerMoves[3] = 2;
+          activateListeners();
+          turn += 1;
+      }
+      else if (playerMoves[4] === 0)
+      { 
+          square5.src = whiteRoses;
+          playerMoves[4] = 2;
+          activateListeners();
+          turn += 1;
+      }
+      else if (playerMoves[5] === 0)
+      {
+          square6.src = whiteRoses;
+          playerMoves[5] = 2;
+          activateListeners();
+          turn += 1;
+      }
+      else if (playerMoves[6] === 0)
+      { 
+          square7.src = whiteRoses;
+          playerMoves[6] = 2;
+          activateListeners();
+          turn += 1;
+      }
+      else if (playerMoves[7] === 0)
+      {
+          square8.src = whiteRoses;
+          playerMoves[7] = 2;
+          activateListeners();
+          turn += 1;
+      }
+      else if (playerMoves[8] === 0)
+      { 
+          square9.src = whiteRoses;
+          playerMoves[8] = 2;
+          activateListeners();
+          turn += 1;
+      }
+    }  
+ }
+
+function movePiece(event){
+        alert("the tribune " + (squareEmpty(event) === 0));
+       if(squareEmpty(event) === 0)
+       {
+         event.target.src = redRoses;
+         if(event.target.id === "square1")
+         {
+          playerMoves[0] = 1;
+         }
+         else if (event.target.id === "square2")
+         {
+          playerMoves[1] = 1;
+         }
+         else if (event.target.id === "square3")
+         {
+          playerMoves[2] = 1;
+         }
+         else if (event.target.id === "square4")
+         {
+          playerMoves[3] = 1;
+         }
+         else if (event.target.id === "square5")
+         {
+          playerMoves[4] = 1;
+         }
+         else if (event.target.id === "square6")
+         {
+          playerMoves[5] = 1;
+         }
+         else if (event.target.id === "square7")
+         {
+          playerMoves[6] = 1;
+         }
+         else if (event.target.id === "square8")
+         {
+          playerMoves[7] = 1;
+         }
+         else if (event.target.id === "square9")
+         {
+          playerMoves[8] = 1;
+         }
+
+       squarez1.removeEventListener("click",movePiece,false);
+       squarez2.removeEventListener("click",movePiece,false);
+       squarez3.removeEventListener("click",movePiece,false);
+       squarez4.removeEventListener("click",movePiece,false);
+       squarez5.removeEventListener("click",movePiece,false);
+       squarez6.removeEventListener("click",movePiece,false);
+       squarez7.removeEventListener("click",movePiece,false);
+       squarez8.removeEventListener("click",movePiece,false);
+       squarez9.removeEventListener("click",movePiece,false);
+       turn += 1;
+       computerMov();
+       }
+}
+
+function activateListeners(){
+  squarez1.addEventListener("click",movePiece,false);
+  squarez2.addEventListener("click",movePiece,false);
+  squarez3.addEventListener("click",movePiece,false);
+  squarez4.addEventListener("click",movePiece,false);
+  squarez5.addEventListener("click",movePiece,false);
+  squarez6.addEventListener("click",movePiece,false);
+  squarez7.addEventListener("click",movePiece,false);
+  squarez8.addEventListener("click",movePiece,false);
+  squarez9.addEventListener("click",movePiece,false);
+}
+function startGame(){
+  turn = 0;
+  playerMoves = [0,0,0,0,0,0,0,0,0];
+  square1.src = emptySquare;
+  square2.src = emptySquare;
+  square3.src = emptySquare;
+  square4.src = emptySquare;
+  square5.src = emptySquare;
+  square6.src = emptySquare;
+  square7.src = emptySquare;
+  square8.src = emptySquare;
+  square9.src = emptySquare;
+  coinToss = flipCoin();
+  alert(coinToss);
+  if(coinToss === 1)
+  {
+    activateListeners();
+  }
+  else if(coinToss === 2)
+  {
+    computerMov();
+  }
+}
+function checkForWinner(){
+  //if no winner, return 0
+  //if tie return -1
+  //if PRWin return 1
+  //if PRWin return 2
+  gameStatus = 0;
+
+  var counter1 = 0;//this is i
+  var counter2 = 0;//this is j
+
+  //this is the hz ckr
+  while(counter1 < (cols-1))
+  {
+    while(counter2 < rows)
+    {
+      if(playerMoves[(counter2*rows) + counter1] === redTeam && playerMoves[((counter2*rows) + counter1 + 1)] === redTeam)
+      {
+        PRWin += 1;
+        if(PRWin === VC)
+        {
+          gameStatus = 1;
+        }
+      }
+      else if(playerMoves[(counter2*rows) + counter1] === whiteTeam && playerMoves[((counter2*rows) + counter1 + 1)] === whiteTeam)
+      {
+        PWWin += 1;
+        if(PWWin === VC)
+        {
+          gameStatus = 2;
+        }
+      }
+      else
+      {
+        PRWin = 0;
+        PWWin = 0;
+      }
+    }
+  }
+}
+function playGame()
+{
+  startGame();
+}
+playGame();
+/*
+alert("did we make it here");
+var buttonZ = document.getElementById("dumkopft");
+function once(){
+  alert("this ran at least once");
+  buttonZ.removeEventListener("click",once,false);
+}
+buttonZ.addEventListener("click",once,false);
+
+alert("and here?");
+*/
+</script>
+
+
+</body>
+
+</html>
