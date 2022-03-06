@@ -1,0 +1,10 @@
+To do List:
+1. Label the images in the welcomePage.html. It is not readily apparent what each picture stands for as it is.
+
+2. fix the links on WelcomePage.html so that it doesn't bring up a 404 error
+
+3. Turn off the alerts that display every time a move is made.
+
+4. Right now it allows the user to move into an already occupied square.
+
+5. create a way to display who won when the game is over.
